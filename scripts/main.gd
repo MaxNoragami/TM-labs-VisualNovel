@@ -6,12 +6,15 @@ var character: Dictionary
 # Character scenes
 @export var hana_scene: PackedScene
 @export var miki_scene: PackedScene
+@export var dialogue_scene: PackedScene
 
 # Character instances
 var hana: Control
 var miki: Control
+var dialogue: Control = null
 
 @export var hboxcontainer: HBoxContainer
+var some_text: String = "Detective Graves stood before the gathered household members, his eyes scanning the room like a hawk searching for the slightest crack in their composure. The fireplace crackled softly, casting flickering shadows across the mahogany walls. The air was heavy, filled with unspoken accusations. We’re going to do this the simple way. I ask questions. You answer honestly. If I find out anyone is lying to me—well, let’s just say I’m good at uncovering secrets. Detective Graves stood before the gathered household members, his eyes scanning the room like a hawk searching for the slightest crack in their composure. The fireplace crackled softly, casting flickering shadows across the mahogany walls. The air was heavy, filled with unspoken accusations. We’re going to do this the simple way. I ask questions. You answer honestly. If I find out anyone is lying to me—well, let’s just say I’m good at uncovering secrets."
 
 
 func _ready() -> void:
@@ -50,7 +53,16 @@ func _input(event) -> void:
 		character[Enums.Characters.HANA].talk()
 	if(event.is_action_pressed("silence_hana")):
 		character[Enums.Characters.HANA].silence()
-	
+	if(event.is_action_pressed("open_d")):
+		add_dialogue()
+	if(event.is_action_pressed("close_d")):
+		dialogue.close()
+	if(event.is_action_pressed("char_by_char")):
+		char_by_char( some_text, "Masha")
+	if(event.is_action_pressed("full_text")):
+		set_full_text( some_text, "Masha")
+
+# CHARACTERS RELATED ---------------------------------------------
 func add_char(choice, pose) -> void:
 	if character_scenes.has(choice):
 		var char_instance: Control = character_scenes[choice].instantiate()
@@ -93,3 +105,26 @@ func resize_gap() -> void:
 			hboxcontainer.add_theme_constant_override("separation", 55)
 		_:
 			hboxcontainer.add_theme_constant_override("separation", 15)
+
+# DIALOGUE RELATED ---------------------------------------------
+func add_dialogue(name = "Unknown"):
+	if(dialogue == null):
+		var dialogue_instance: Control = dialogue_scene.instantiate()
+		dialogue = dialogue_instance
+		$".".add_child(dialogue_instance)
+		dialogue.set_speaker(name)
+		dialogue.appear()
+	else:
+		push_error("An instance of the dialogue already exists")
+
+func char_by_char(text, username):
+	if(dialogue != null):
+		dialogue.typewrite_text(text, username)
+	else:
+		push_error("Null dialogue reference!")
+
+func set_full_text(text, username):
+	if(dialogue != null):
+		dialogue.full_text(text, username)
+	else:
+		push_error("Null dialogue reference!")

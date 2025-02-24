@@ -1,0 +1,290 @@
+[gd_scene load_steps=20 format=3 uid="uid://d2b20sylrdguh"]
+
+[ext_resource type="Script" path="res://scripts/dialogue.gd" id="1_3o1jf"]
+[ext_resource type="Texture2D" uid="uid://6ffs277bjlu2" path="res://sprites/dialogue.png" id="1_put8g"]
+[ext_resource type="Theme" uid="uid://dgcdobeb4gsu0" path="res://themes/button_dialogue.tres" id="2_jbgh8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_liv40"]
+
+[sub_resource type="Theme" id="Theme_jvx5d"]
+Panel/styles/panel = SubResource("StyleBoxEmpty_liv40")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_axs6f"]
+bg_color = Color(0.8, 0.8, 0.8, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s6t3c"]
+
+[sub_resource type="Theme" id="Theme_0ccm6"]
+Panel/styles/panel = SubResource("StyleBoxEmpty_s6t3c")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kjj5x"]
+texture = ExtResource("1_put8g")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hsi7m"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nh8mc"]
+bg_color = Color(0.0509804, 0.231373, 0.294118, 0.901961)
+border_width_left = 4
+border_width_right = 4
+border_width_bottom = 4
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6qn4c"]
+
+[sub_resource type="Theme" id="Theme_ou6no"]
+Panel/styles/panel = SubResource("StyleBoxEmpty_6qn4c")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_seqi4"]
+
+[sub_resource type="Theme" id="Theme_yqg70"]
+Panel/styles/panel = SubResource("StyleBoxEmpty_seqi4")
+
+[sub_resource type="Animation" id="Animation_65ygp"]
+resource_name = "APPEAR"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(2.63902, 0.574349),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_7vqgu"]
+resource_name = "CLOSE"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0333333, 0.5),
+"transitions": PackedFloat32Array(0.574349, 2.63902),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.48),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"remove_self"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_eagl1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ern3o"]
+_data = {
+"APPEAR": SubResource("Animation_65ygp"),
+"CLOSE": SubResource("Animation_7vqgu"),
+"RESET": SubResource("Animation_eagl1")
+}
+
+[node name="DialogueControl" type="Control"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_3o1jf")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 350
+theme_override_constants/margin_top = 750
+theme_override_constants/margin_right = 350
+theme_override_constants/margin_bottom = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.49
+
+[node name="LeftWrap" type="Panel" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.45
+theme = SubResource("Theme_jvx5d")
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_axs6f")
+
+[node name="Margin" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_right = 25
+
+[node name="Speaker" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelContainer/Margin"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+size_flags_stretch_ratio = 3.0
+theme_override_colors/font_outline_color = Color(0.0745098, 0.239216, 0.294118, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 32
+text = "Speaker"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RightWrap" type="Panel" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 7.3
+theme = SubResource("Theme_0ccm6")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 7.05
+theme_override_constants/separation = -1
+
+[node name="Dialogue" type="PanelContainer" parent="MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 6.06
+theme_override_styles/panel = SubResource("StyleBoxTexture_kjj5x")
+
+[node name="DialogueBorder" type="PanelContainer" parent="MarginContainer/VBoxContainer/VBoxContainer/Dialogue"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hsi7m")
+
+[node name="Margin" type="MarginContainer" parent="MarginContainer/VBoxContainer/VBoxContainer/Dialogue/DialogueBorder"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 7
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/VBoxContainer/Dialogue/DialogueBorder/Margin"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="Dialogue" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer/Dialogue/DialogueBorder/Margin/ScrollContainer"]
+custom_minimum_size = Vector2(1170, 140)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+size_flags_stretch_ratio = 3.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 26
+text = "[ ... ]"
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Buttons" type="PanelContainer" parent="MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_nh8mc")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/VBoxContainer/Buttons"]
+layout_mode = 2
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer/Buttons/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="Left" type="Panel" parent="MarginContainer/VBoxContainer/VBoxContainer/Buttons/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = SubResource("Theme_ou6no")
+
+[node name="Load" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer/Buttons/MarginContainer/HBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+theme = ExtResource("2_jbgh8")
+theme_override_font_sizes/font_size = 22
+text = "Load"
+autowrap_mode = 3
+
+[node name="Save" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer/Buttons/MarginContainer/HBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+theme = ExtResource("2_jbgh8")
+theme_override_font_sizes/font_size = 22
+text = "Save
+"
+autowrap_mode = 3
+
+[node name="Auto" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer/Buttons/MarginContainer/HBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+theme = ExtResource("2_jbgh8")
+theme_override_font_sizes/font_size = 22
+text = "Auto"
+autowrap_mode = 3
+
+[node name="Next" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer/Buttons/MarginContainer/HBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+theme = ExtResource("2_jbgh8")
+theme_override_font_sizes/font_size = 22
+text = "Next
+"
+autowrap_mode = 3
+
+[node name="Right" type="Panel" parent="MarginContainer/VBoxContainer/VBoxContainer/Buttons/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = SubResource("Theme_yqg70")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_ern3o")
+}
