@@ -45,15 +45,13 @@ var STORY = {
 	},
 
 	7 : {
-		"type" : Enums.Type.DIALOGUE,
-		"speaker" : Enums.Characters.MIKI,
-		"text" : "Good morning, " + Global.username + "-sama!"
-	},
-
-	8 : {
 		"type" : Enums.Type.INNER_DIALOGUE,
 		"speaker" : Global.username,
 		"text" : "Should I say anything?"
+	},
+	
+	8 : {
+		"type" : Enums.Type.CLOSE_DIALOGUE
 	},
 
 	9 : {
@@ -67,12 +65,12 @@ var STORY = {
 
 	10 : {
 		"type" : Enums.Type.AUTOPLAY,
-		"until" : 20
+		"until" : 19
 	},
 
 	11 : {
 		"type" : Enums.Type.PLAY_SONG,
-		"song" : "none"
+		"song" : Enums.Audio.NONE
 	},
 
 	12 : {

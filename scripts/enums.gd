@@ -54,5 +54,6 @@ enum Background
 enum Audio
 {
 	MENU,
-	GAMEPLAY
+	GAMEPLAY,
+	NONE
 }

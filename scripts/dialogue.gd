@@ -7,6 +7,8 @@ extends Control
 @export var font_italic: Font
 @export var font_normal: Font
 
+signal dialogue_closed
+
 var is_scrolling: bool = false
 var stop_typewriter: bool = false
 
@@ -67,5 +69,11 @@ func appear() -> void:
 	animation.play("APPEAR")
 
 func close() -> void:
+	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	Global.is_dialogue_open = false
 	animation.play("CLOSE")
+	
+
+func emit_close() -> void:
+	dialogue_closed.emit()
+	print("Dialogue closed, bro")

@@ -16,6 +16,7 @@ var current_node: int = 0
 @export var bg: Control
 @export var blackout: Control
 @export var audio_bg: AudioStreamPlayer
+@export var choice_control: Control
 
 @export var bg_textures: Dictionary = {
 	Enums.Background.NOON : preload("res://styles/noon_style.tres"),
@@ -29,6 +30,8 @@ var current_node: int = 0
 
 var current_text: String
 var current_speaker
+var talking_char: Control = null
+var is_talker: bool = false
 
 # Character instances
 var hana: Control
@@ -41,6 +44,7 @@ var some_text: String = "Detective Graves stood before the gathered household me
 
 func _ready() -> void:
 	connect("parse_next_node", next)
+	choice_control.connect("next_route", route_choice)
 	#connect("skip_yapping", skip_yap)
 	
 	character_scenes = {
@@ -160,6 +164,7 @@ func add_dialogue(name = "Unknown"):
 		$".".add_child(dialogue_instance)
 		dialogue.set_speaker(name)
 		dialogue.appear()
+		dialogue.connect("dialogue_closed", _on_dialogue_closed)
 	else:
 		push_error("An instance of the dialogue already exists")
 
@@ -191,6 +196,11 @@ func skip_yap(text, speaker):
 
 func choose_node():
 	if(current_node >= 0):
+		if(story.STORY[current_node]["type"] != Enums.Type.DIALOGUE):
+			is_talker = false
+			if(talking_char != null):
+				talking_char.silence()
+				talking_char = null
 		match story.STORY[current_node]["type"]:
 		
 			Enums.Type.SET_SCENE:
@@ -202,13 +212,17 @@ func choose_node():
 			
 			Enums.Type.PLAY_SONG:
 				print("PLAY_SONG")
-				audio_bg.play_track(audio_tracks[story.STORY[current_node]["song"]])
+				if(story.STORY[current_node]["song"] == Enums.Audio.NONE):
+					audio_bg.stop_track()
+				else:
+					audio_bg.play_track(audio_tracks[story.STORY[current_node]["song"]])
 				current_node += 1
 				parse_next_node.emit()
 			
 			Enums.Type.VISION_EFFECT:
 				print("VISION_EFFECT")
 				if(story.STORY[current_node]["effect"] == Enums.Vision.FADE_IN):
+						blackout.visible = true
 						blackout.appear()
 				elif(story.STORY[current_node]["effect"] == Enums.Vision.FADE_OUT):
 						blackout.disappear()
@@ -219,7 +233,10 @@ func choose_node():
 				
 				if character.has(story.STORY[current_node]["speaker"]):
 					if(character[story.STORY[current_node]["speaker"]] != null):
-						current_speaker = character[story.STORY[current_node]["speaker"]].get_username()
+						if(talking_char == null || character[story.STORY[current_node]["speaker"]] != talking_char):
+							talking_char = character[story.STORY[current_node]["speaker"]]
+							current_speaker = talking_char.get_username()
+							talking_char.talk()
 					else:
 						push_error("This character " + str(story.STORY[current_node]["speaker"]) + " has not been instantiated yet!")
 				else:
@@ -251,6 +268,7 @@ func choose_node():
 					current_node += 1
 				else:
 					push_error("Failed to deal with CHAR")
+		
 			Enums.Type.INNER_DIALOGUE:
 				print("INNER_DIALOGUE")
 				current_text = story.STORY[current_node]["text"]
@@ -265,8 +283,12 @@ func choose_node():
 					char_by_char(current_text, current_speaker)
 				else:
 					push_error("Error determining the dialogue's state")
+		
 			Enums.Type.CHOICE:
-				pass
+				print("CHOICE")
+				var current_choices: Array = story.STORY[current_node]["choices"]
+				choice_control.add_choice(current_choices)
+	
 			Enums.Type.AUTOPLAY:
 				pass
 			Enums.Type.TIMER:
@@ -278,11 +300,32 @@ func choose_node():
 			Enums.Type.WIN:
 				pass
 			Enums.Type.CLOSE_DIALOGUE:
-				pass
+				print("CLOSE_DIALOGUE")
+				if(dialogue != null):
+					print("CLOSED")
+					dialogue.close()
+				else:
+					push_error("No instance of 'dialogue' to close!")
+					# AnimationPlay signal to be added, so it calls _on_black_control_animation_played()
 			_:
 				push_error("Failed to match an unknown type of story node")
 
 
 func _on_black_control_animation_played() -> void:
+	blackout.visible = false
 	current_node += 1
+	parse_next_node.emit()
+
+func _on_dialogue_closed() -> void:
+	print("In dialogue closed")
+	current_node += 1
+	parse_next_node.emit()
+
+func route_choice(node: int) -> void:
+	print("In main")
+	current_node = node
+	if(choice_control != null):
+		choice_control.remove_choices()
+	else:
+		print("Null reference to choice control")
 	parse_next_node.emit()
