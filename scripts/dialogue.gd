@@ -8,6 +8,7 @@ extends Control
 @export var font_normal: Font
 
 signal dialogue_closed
+signal yapping_completed
 
 var is_scrolling: bool = false
 var stop_typewriter: bool = false
@@ -36,6 +37,7 @@ func typewrite_text(text, name) -> void:
 	
 	Global.is_yapping = false
 	is_scrolling = false
+	yapping_completed.emit()
 
 func auto_scroll() -> void:
 	while is_scrolling:

@@ -8,6 +8,10 @@ var character: Dictionary
 
 var current_node: int = 0
 
+var is_autoplay_on: bool = false
+var autoplay_count: int = 0
+var autoplay_goal: int = 0
+
 # Character / scenes / others
 @export var story: Story
 @export var hana_scene: PackedScene
@@ -17,6 +21,7 @@ var current_node: int = 0
 @export var blackout: Control
 @export var audio_bg: AudioStreamPlayer
 @export var choice_control: Control
+@export var end_title: Control
 
 @export var bg_textures: Dictionary = {
 	Enums.Background.NOON : preload("res://styles/noon_style.tres"),
@@ -165,6 +170,7 @@ func add_dialogue(name = "Unknown"):
 		dialogue.set_speaker(name)
 		dialogue.appear()
 		dialogue.connect("dialogue_closed", _on_dialogue_closed)
+		dialogue.connect("yapping_completed", _on_yapping_completed)
 	else:
 		push_error("An instance of the dialogue already exists")
 
@@ -181,7 +187,6 @@ func set_full_text(text, username):
 		push_error("Null dialogue reference!")
 
 
-
 # The main deal ---------------------------------------------
 
 func next():
@@ -195,12 +200,23 @@ func skip_yap(text, speaker):
 	set_full_text(text, speaker)
 
 func choose_node():
+	print("GOAL: " + str(autoplay_goal))
+	print("COUNT: " + str(autoplay_count))
 	if(current_node >= 0):
+		if(autoplay_count - 1 > -1 && autoplay_goal - 1>  -1 && autoplay_count - 1 == autoplay_goal - 1):
+			is_autoplay_on = false
+			autoplay_count = 0
+			autoplay_goal = 0
+			print("AUTOPLAY IS FALSE")
+		if(is_autoplay_on):
+			autoplay_delay(2.0)
+		
 		if(story.STORY[current_node]["type"] != Enums.Type.DIALOGUE):
 			is_talker = false
 			if(talking_char != null):
 				talking_char.silence()
 				talking_char = null
+		
 		match story.STORY[current_node]["type"]:
 		
 			Enums.Type.SET_SCENE:
@@ -208,6 +224,10 @@ func choose_node():
 				var background_scene = bg_textures[int(story.STORY[current_node]["background"])]
 				bg.change(background_scene)
 				current_node += 1
+				
+				if(is_autoplay_on):
+					autoplay_count += 1
+				
 				parse_next_node.emit()
 			
 			Enums.Type.PLAY_SONG:
@@ -217,6 +237,10 @@ func choose_node():
 				else:
 					audio_bg.play_track(audio_tracks[story.STORY[current_node]["song"]])
 				current_node += 1
+				
+				if(is_autoplay_on):
+					autoplay_count += 1
+				
 				parse_next_node.emit()
 			
 			Enums.Type.VISION_EFFECT:
@@ -226,6 +250,12 @@ func choose_node():
 						blackout.appear()
 				elif(story.STORY[current_node]["effect"] == Enums.Vision.FADE_OUT):
 						blackout.disappear()
+				elif(story.STORY[current_node]["effect"] == Enums.Vision.BLACKOUT):
+						blackout.blackout()
+						if(is_autoplay_on):
+							autoplay_count += 1
+							await autoplay_delay(5)
+							parse_next_node.emit()
 			
 			Enums.Type.DIALOGUE:
 				print("DIALOGUE")
@@ -242,6 +272,7 @@ func choose_node():
 				else:
 					current_speaker = story.STORY[current_node]["speaker"]
 				current_node += 1
+				
 				if(!Global.is_dialogue_open):
 					add_dialogue(current_speaker)
 					dialogue.text_normal()
@@ -268,6 +299,10 @@ func choose_node():
 					current_node += 1
 				else:
 					push_error("Failed to deal with CHAR")
+				if(is_autoplay_on):
+					autoplay_delay(1.2)
+					autoplay_count += 1
+					parse_next_node.emit()
 		
 			Enums.Type.INNER_DIALOGUE:
 				print("INNER_DIALOGUE")
@@ -290,15 +325,33 @@ func choose_node():
 				choice_control.add_choice(current_choices)
 	
 			Enums.Type.AUTOPLAY:
-				pass
+				print("AUTOPLAY")
+				is_autoplay_on = true
+				autoplay_count = 0
+				autoplay_goal = story.STORY[current_node]["until"] - current_node
+				
+				current_node += 1
+				parse_next_node.emit()
 			Enums.Type.TIMER:
-				pass
-			Enums.Type.DEATH:
-				pass
+				print("TIMER")
 			Enums.Type.END:
-				pass
+				print("END")
+				current_node = 0
+				
+				blackout.visible = true
+				end_title.visible_off()
+				audio_bg.play_track(audio_tracks[Enums.Audio.MENU])
+				
+				
 			Enums.Type.WIN:
-				pass
+				print("WIN")
+				blackout.visible = true
+				blackout.blackout()
+				end_title.visible_on()
+				end_title.set_label_text(story.STORY[current_node]["ending"])
+				end_title.appear()
+				current_node += 1
+				
 			Enums.Type.CLOSE_DIALOGUE:
 				print("CLOSE_DIALOGUE")
 				if(dialogue != null):
@@ -314,12 +367,28 @@ func choose_node():
 func _on_black_control_animation_played() -> void:
 	blackout.visible = false
 	current_node += 1
+	
+	if(is_autoplay_on):
+		autoplay_count += 1
+		await autoplay_delay(1.2)
+	
 	parse_next_node.emit()
 
 func _on_dialogue_closed() -> void:
 	print("In dialogue closed")
 	current_node += 1
+	
+	if(is_autoplay_on):
+		autoplay_count += 1
+		autoplay_delay(1.2)
+	
 	parse_next_node.emit()
+
+func _on_yapping_completed() -> void:
+	print("Yapping completed")
+	if(is_autoplay_on):
+		autoplay_count += 1
+		parse_next_node.emit()
 
 func route_choice(node: int) -> void:
 	print("In main")
@@ -329,3 +398,7 @@ func route_choice(node: int) -> void:
 	else:
 		print("Null reference to choice control")
 	parse_next_node.emit()
+
+func autoplay_delay(seconds: float) -> void:
+	if is_autoplay_on:
+		await get_tree().create_timer(seconds).timeout

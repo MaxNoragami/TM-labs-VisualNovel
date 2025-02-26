@@ -1,0 +1,394 @@
+[gd_scene load_steps=16 format=3 uid="uid://dx1g1mdtmap2a"]
+
+[ext_resource type="Script" path="res://scripts/menu.gd" id="1_885li"]
+[ext_resource type="FontFile" uid="uid://d3a6fcul1qa2v" path="res://fonts/Jacquard24-Regular.ttf" id="2_3p4ft"]
+[ext_resource type="StyleBox" uid="uid://xtspwvto2smv" path="res://styles/choice_button_hover.tres" id="3_xtpxj"]
+[ext_resource type="StyleBox" uid="uid://bad3hpjmb1gls" path="res://styles/choice_button_default.tres" id="4_lkw0x"]
+[ext_resource type="StyleBox" uid="uid://bxkoxrq6om4y7" path="res://styles/choice_button_pressed.tres" id="5_v7yvu"]
+[ext_resource type="Texture2D" uid="uid://cqytt5l1i654u" path="res://sprites/kiki.png" id="6_18y2u"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tu1u8"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5tsr0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oijdg"]
+
+[sub_resource type="Theme" id="Theme_qq0m5"]
+Button/font_sizes/font_size = 77
+Button/fonts/font = ExtResource("2_3p4ft")
+Button/styles/focus = SubResource("StyleBoxEmpty_oijdg")
+Button/styles/hover = ExtResource("3_xtpxj")
+Button/styles/normal = ExtResource("4_lkw0x")
+Button/styles/pressed = ExtResource("5_v7yvu")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1uvxv"]
+bg_color = Color(0.0862745, 0.321569, 0.403922, 0.980392)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4nmcw"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2li0m"]
+
+[sub_resource type="Theme" id="Theme_b8obr"]
+Button/constants/h_separation = 0
+Button/font_sizes/font_size = 100
+Button/fonts/font = ExtResource("2_3p4ft")
+Button/styles/disabled = SubResource("StyleBoxEmpty_4nmcw")
+Button/styles/focus = SubResource("StyleBoxEmpty_2li0m")
+Button/styles/hover = ExtResource("3_xtpxj")
+Button/styles/normal = ExtResource("4_lkw0x")
+Button/styles/pressed = ExtResource("5_v7yvu")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vsrnx"]
+texture = ExtResource("6_18y2u")
+
+[node name="Menu" type="Control" node_paths=PackedStringArray("newgame_btn", "loadgame_btn", "credits_btn", "loadgame_win", "pop_outs")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_885li")
+newgame_btn = NodePath("PanelContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/NewGame")
+loadgame_btn = NodePath("PanelContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/LoadGame")
+credits_btn = NodePath("PanelContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Credits")
+loadgame_win = NodePath("PanelContainer/PopOuts/LoadGamePopOut")
+pop_outs = NodePath("PanelContainer/PopOuts")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 2
+offset_right = 1920.0
+offset_bottom = 1080.0
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_tu1u8")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 200
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 200
+theme_override_constants/margin_bottom = 100
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_5tsr0")
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/PanelContainer"]
+custom_minimum_size = Vector2(1520, 438)
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_outline_color = Color(0.0862745, 0.321569, 0.403922, 1)
+theme_override_constants/line_spacing = -50
+theme_override_constants/outline_size = 40
+theme_override_fonts/font = ExtResource("2_3p4ft")
+theme_override_font_sizes/font_size = 235
+text = "Murder at Blackwood Manor"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+clip_text = true
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 400
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 400
+theme_override_constants/margin_bottom = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 20
+
+[node name="NewGame" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = SubResource("Theme_qq0m5")
+text = "New Game"
+
+[node name="LoadGame" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = SubResource("Theme_qq0m5")
+text = "Load Game"
+
+[node name="Credits" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = SubResource("Theme_qq0m5")
+text = "Credits"
+
+[node name="PopOuts" type="MarginContainer" parent="PanelContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 400
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 400
+theme_override_constants/margin_bottom = 100
+
+[node name="LoadGamePopOut" type="PanelContainer" parent="PanelContainer/PopOuts"]
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_1uvxv")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/PopOuts/LoadGamePopOut"]
+layout_mode = 2
+
+[node name="Top" type="MarginContainer" parent="PanelContainer/PopOuts/LoadGamePopOut/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/PopOuts/LoadGamePopOut/VBoxContainer/Top"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/PopOuts/LoadGamePopOut/VBoxContainer/Top/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+size_flags_stretch_ratio = 8.84
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = ExtResource("2_3p4ft")
+theme_override_font_sizes/font_size = 100
+text = " Load Game"
+vertical_alignment = 1
+clip_text = true
+
+[node name="Button" type="Button" parent="PanelContainer/PopOuts/LoadGamePopOut/VBoxContainer/Top/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = SubResource("Theme_b8obr")
+text = "x"
+clip_text = true
+
+[node name="Bottom" type="MarginContainer" parent="PanelContainer/PopOuts/LoadGamePopOut/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 6.7
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/PopOuts/LoadGamePopOut/VBoxContainer/Bottom"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="GridContainer" type="GridContainer" parent="PanelContainer/PopOuts/LoadGamePopOut/VBoxContainer/Bottom/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 20
+theme_override_constants/v_separation = 20
+columns = 5
+
+[node name="CreditsPopOut" type="PanelContainer" parent="PanelContainer/PopOuts"]
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_1uvxv")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/PopOuts/CreditsPopOut"]
+layout_mode = 2
+
+[node name="Top" type="MarginContainer" parent="PanelContainer/PopOuts/CreditsPopOut/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/PopOuts/CreditsPopOut/VBoxContainer/Top"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/PopOuts/CreditsPopOut/VBoxContainer/Top/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+size_flags_stretch_ratio = 8.84
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = ExtResource("2_3p4ft")
+theme_override_font_sizes/font_size = 100
+text = "Credits"
+vertical_alignment = 1
+clip_text = true
+
+[node name="ButtonCloseCredits" type="Button" parent="PanelContainer/PopOuts/CreditsPopOut/VBoxContainer/Top/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = SubResource("Theme_b8obr")
+text = "x"
+clip_text = true
+
+[node name="Bottom" type="MarginContainer" parent="PanelContainer/PopOuts/CreditsPopOut/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 6.7
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/PopOuts/CreditsPopOut/VBoxContainer/Bottom"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/PopOuts/CreditsPopOut/VBoxContainer/Bottom/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label3" type="Label" parent="PanelContainer/PopOuts/CreditsPopOut/VBoxContainer/Bottom/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("2_3p4ft")
+theme_override_font_sizes/font_size = 77
+text = "Writer :"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="PanelContainer/PopOuts/CreditsPopOut/VBoxContainer/Bottom/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("2_3p4ft")
+theme_override_font_sizes/font_size = 77
+text = " Victoria Mutruc"
+vertical_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/PopOuts/CreditsPopOut/VBoxContainer/Bottom/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label3" type="Label" parent="PanelContainer/PopOuts/CreditsPopOut/VBoxContainer/Bottom/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("2_3p4ft")
+theme_override_font_sizes/font_size = 77
+text = "Writer :"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="PanelContainer/PopOuts/CreditsPopOut/VBoxContainer/Bottom/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("2_3p4ft")
+theme_override_font_sizes/font_size = 77
+text = " Daria Rațeeva"
+vertical_alignment = 1
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="PanelContainer/PopOuts/CreditsPopOut/VBoxContainer/Bottom/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label3" type="Label" parent="PanelContainer/PopOuts/CreditsPopOut/VBoxContainer/Bottom/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("2_3p4ft")
+theme_override_font_sizes/font_size = 77
+text = "Developer :"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="PanelContainer/PopOuts/CreditsPopOut/VBoxContainer/Bottom/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("2_3p4ft")
+theme_override_font_sizes/font_size = 77
+text = " Daniel Cojocaru"
+vertical_alignment = 1
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="PanelContainer/PopOuts/CreditsPopOut/VBoxContainer/Bottom/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label3" type="Label" parent="PanelContainer/PopOuts/CreditsPopOut/VBoxContainer/Bottom/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("2_3p4ft")
+theme_override_font_sizes/font_size = 77
+text = "Developer :"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="PanelContainer/PopOuts/CreditsPopOut/VBoxContainer/Bottom/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("2_3p4ft")
+theme_override_font_sizes/font_size = 77
+text = " Adrian Vremere"
+vertical_alignment = 1
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="PanelContainer/PopOuts/CreditsPopOut/VBoxContainer/Bottom/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label3" type="Label" parent="PanelContainer/PopOuts/CreditsPopOut/VBoxContainer/Bottom/VBoxContainer/HBoxContainer5"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("2_3p4ft")
+theme_override_font_sizes/font_size = 77
+text = "Developer :"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="PanelContainer/PopOuts/CreditsPopOut/VBoxContainer/Bottom/VBoxContainer/HBoxContainer5"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("2_3p4ft")
+theme_override_font_sizes/font_size = 77
+text = " Maxim Alexei"
+vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/PopOuts/CreditsPopOut/VBoxContainer/Bottom/VBoxContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+size_flags_stretch_ratio = 5.55
+
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/PopOuts/CreditsPopOut/VBoxContainer/Bottom/VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_vsrnx")
+
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/NewGame" to="." method="_on_new_game_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/LoadGame" to="." method="_on_load_game_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Credits" to="." method="_on_credits_pressed"]
+[connection signal="pressed" from="PanelContainer/PopOuts/LoadGamePopOut/VBoxContainer/Top/HBoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="PanelContainer/PopOuts/CreditsPopOut/VBoxContainer/Top/HBoxContainer/ButtonCloseCredits" to="." method="_on_button_close_credits_pressed"]

@@ -65,7 +65,7 @@ var STORY = {
 
 	10 : {
 		"type" : Enums.Type.AUTOPLAY,
-		"until" : 19
+		"until" : 17
 	},
 
 	11 : {
@@ -122,12 +122,13 @@ var STORY = {
 	},
 
 	20 : {
-		"type" : Enums.Type.TIMER,
-		"effect" : 1500 # In milliseconds
+		"type" : Enums.Type.VISION_EFFECT,
+		"effect" : Enums.Vision.FADE_OUT
 	},
 
 	21 : {
-		"type" : Enums.Type.DEATH	# Shows a death title screen
+		"type" : Enums.Type.WIN,
+		"ending" : "Ending 1: You rock",
 	},
 
 	22 : {
@@ -222,7 +223,7 @@ var STORY = {
 
 	38 : {
 		"type" : Enums.Type.WIN,
-		"ending" : 1,
+		"ending" : "Ending 2: You are confused",
 	},
 
 	39 : {

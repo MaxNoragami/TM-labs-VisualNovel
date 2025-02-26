@@ -12,7 +12,6 @@ enum Type {
 	CHOICE,
 	AUTOPLAY,
 	TIMER,
-	DEATH,
 	END,
 	WIN,
 	CLOSE_DIALOGUE
@@ -21,6 +20,7 @@ enum Type {
 enum Vision {
 	FADE_IN,
 	FADE_OUT,
+	BLACKOUT
 }
 
 enum Action {

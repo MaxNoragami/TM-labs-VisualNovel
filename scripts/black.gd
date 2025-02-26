@@ -10,6 +10,9 @@ func _ready() -> void:
 func appear():
 	animation.play("FADE_IN")
 
+func blackout():
+	animation.play("BLACKOUT")
+
 func disappear():
 	animation.play("FADE_OUT")
 

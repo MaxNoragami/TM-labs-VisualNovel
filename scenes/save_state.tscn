@@ -1,0 +1,25 @@
+[gd_scene load_steps=8 format=3 uid="uid://dk88gjay7difq"]
+
+[ext_resource type="FontFile" uid="uid://d3a6fcul1qa2v" path="res://fonts/Jacquard24-Regular.ttf" id="1_rtqkn"]
+[ext_resource type="StyleBox" uid="uid://xtspwvto2smv" path="res://styles/choice_button_hover.tres" id="2_yopjn"]
+[ext_resource type="StyleBox" uid="uid://bad3hpjmb1gls" path="res://styles/choice_button_default.tres" id="3_5rfay"]
+[ext_resource type="StyleBox" uid="uid://bxkoxrq6om4y7" path="res://styles/choice_button_pressed.tres" id="4_wxba2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_k2opx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_o4b0v"]
+
+[sub_resource type="Theme" id="Theme_nrdrv"]
+Button/font_sizes/font_size = 140
+Button/fonts/font = ExtResource("1_rtqkn")
+Button/styles/disabled = SubResource("StyleBoxEmpty_k2opx")
+Button/styles/focus = SubResource("StyleBoxEmpty_o4b0v")
+Button/styles/hover = ExtResource("2_yopjn")
+Button/styles/normal = ExtResource("3_5rfay")
+Button/styles/pressed = ExtResource("4_wxba2")
+
+[node name="SaveState" type="Button"]
+custom_minimum_size = Vector2(0, 180)
+size_flags_horizontal = 3
+theme = SubResource("Theme_nrdrv")
+text = "24"
