@@ -1,19 +1,21 @@
 extends Node
 
+class_name Story
+
 var STORY = {
 	0 : {
 		"type" : Enums.Type.SET_SCENE,
-		"background" : "room01.png"
+		"background" : Enums.Background.NOON
 	},
 	
 	1 : {
 		"type" : Enums.Type.PLAY_SONG,
-		"song" : "ambient01.mp3"
+		"song" : Enums.Audio.GAMEPLAY
 	},
 	
 	2 : {
 		"type" : Enums.Type.VISION_EFFECT,
-		"effect" : Enums.Vision.OPEN_EYES # CLOSE_EYES, FADE_IN, FADE_OUT, DIZZINESS, WOUNDED, BLACOUT
+		"effect" : Enums.Vision.FADE_OUT
 	},
 
 	3 : {
@@ -113,12 +115,12 @@ var STORY = {
 
 	18 : {
 		"type" : Enums.Type.PLAY_SONG,
-		"song" : "HeadHit.mp3"
+		"song" : Enums.Audio.MENU
 	},
 
 	19 : {
 		"type" : Enums.Type.VISION_EFFECT,
-		"effect" : Enums.Vision.BLACKOUT # CLOSE_EYES, FADE_IN, FADE_OUT, DIZZINESS, WOUNDED, BLACKOUT
+		"effect" : Enums.Vision.FADE_IN
 	},
 
 	20 : {
@@ -177,7 +179,7 @@ var STORY = {
 
 	30 : {
 		"type" : Enums.Type.SET_SCENE,
-		"background" : "kitchen01.png"
+		"background" : Enums.Background.NIGHT
 	},
 
 	31 : {

@@ -20,6 +20,9 @@ var current_pose: int = Enums.Pose.IDLE
 func _ready():
 	update_pose(current_pose)
 
+func get_username() -> String:
+	return username
+
 # Update the current pose and change the texture accordingly
 func update_pose(new_pose: int) -> void:
 	current_pose = new_pose

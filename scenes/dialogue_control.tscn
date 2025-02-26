@@ -1,8 +1,10 @@
-[gd_scene load_steps=20 format=3 uid="uid://d2b20sylrdguh"]
+[gd_scene load_steps=23 format=3 uid="uid://d2b20sylrdguh"]
 
 [ext_resource type="Script" path="res://scripts/dialogue.gd" id="1_3o1jf"]
 [ext_resource type="Texture2D" uid="uid://6ffs277bjlu2" path="res://sprites/dialogue.png" id="1_put8g"]
 [ext_resource type="Theme" uid="uid://dgcdobeb4gsu0" path="res://themes/button_dialogue.tres" id="2_jbgh8"]
+[ext_resource type="FontVariation" uid="uid://bwqc7q5hpagoe" path="res://styles/font_dialogue_italic.tres" id="2_ys5jo"]
+[ext_resource type="FontVariation" uid="uid://cmtea6obfatdl" path="res://styles/font_dialogue.tres" id="3_bwtya"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_liv40"]
 
@@ -29,6 +31,8 @@ border_width_top = 4
 border_width_right = 4
 corner_radius_top_left = 10
 corner_radius_top_right = 10
+
+[sub_resource type="Theme" id="Theme_e87yv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nh8mc"]
 bg_color = Color(0.0509804, 0.231373, 0.294118, 0.901961)
@@ -116,8 +120,9 @@ _data = {
 "RESET": SubResource("Animation_eagl1")
 }
 
-[node name="DialogueControl" type="Control"]
+[node name="DialogueControl" type="Control" node_paths=PackedStringArray("speaker", "dialogue", "scroll_container", "animation")]
 modulate = Color(1, 1, 1, 0)
+z_index = 3
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -125,6 +130,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_3o1jf")
+speaker = NodePath("MarginContainer/VBoxContainer/HBoxContainer/PanelContainer/Margin/Speaker")
+dialogue = NodePath("MarginContainer/VBoxContainer/VBoxContainer/Dialogue/DialogueBorder/Margin/ScrollContainer/MarginContainer/Dialogue")
+scroll_container = NodePath("MarginContainer/VBoxContainer/VBoxContainer/Dialogue/DialogueBorder/Margin/ScrollContainer")
+animation = NodePath("AnimationPlayer")
+font_italic = ExtResource("2_ys5jo")
+font_normal = ExtResource("3_bwtya")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -210,14 +221,20 @@ theme_override_constants/margin_bottom = 7
 layout_mode = 2
 horizontal_scroll_mode = 0
 
-[node name="Dialogue" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer/Dialogue/DialogueBorder/Margin/ScrollContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/VBoxContainer/Dialogue/DialogueBorder/Margin/ScrollContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+
+[node name="Dialogue" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer/Dialogue/DialogueBorder/Margin/ScrollContainer/MarginContainer"]
 custom_minimum_size = Vector2(1170, 140)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 size_flags_stretch_ratio = 3.0
+theme = SubResource("Theme_e87yv")
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("3_bwtya")
 theme_override_font_sizes/font_size = 26
 text = "[ ... ]"
 vertical_alignment = 1

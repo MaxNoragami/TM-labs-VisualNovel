@@ -1,20 +1,31 @@
-[gd_scene load_steps=5 format=3 uid="uid://dayb3580f7lke"]
+[gd_scene load_steps=10 format=3 uid="uid://dayb3580f7lke"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_aasc6"]
 [ext_resource type="PackedScene" uid="uid://csjvxov03a2vo" path="res://scenes/hana.tscn" id="1_nh61r"]
 [ext_resource type="PackedScene" uid="uid://cpqkj4cw8an1" path="res://scenes/miki.tscn" id="3_dxxfu"]
 [ext_resource type="PackedScene" uid="uid://d2b20sylrdguh" path="res://scenes/dialogue_control.tscn" id="4_hhg5d"]
+[ext_resource type="PackedScene" uid="uid://4g467bsvn8cg" path="res://scenes/story.tscn" id="5_oms65"]
+[ext_resource type="PackedScene" uid="uid://rn0mhxebjs6s" path="res://scenes/background_control.tscn" id="5_qura7"]
+[ext_resource type="PackedScene" uid="uid://c0dhkex466w60" path="res://scenes/black_control.tscn" id="6_wcstt"]
+[ext_resource type="PackedScene" uid="uid://bou24owh3uuwf" path="res://scenes/choice_control.tscn" id="8_531wc"]
+[ext_resource type="PackedScene" uid="uid://p6bfljut5835" path="res://scenes/audio_bg.tscn" id="9_feq6t"]
 
-[node name="Main" type="Node" node_paths=PackedStringArray("hboxcontainer")]
+[node name="Main" type="Node" node_paths=PackedStringArray("story", "bg", "blackout", "audio_bg", "hboxcontainer")]
 script = ExtResource("1_aasc6")
+story = NodePath("Story")
 hana_scene = ExtResource("1_nh61r")
 miki_scene = ExtResource("3_dxxfu")
 dialogue_scene = ExtResource("4_hhg5d")
-hboxcontainer = NodePath("CanvasLayer/HBoxContainer")
+bg = NodePath("BackgroundControl")
+blackout = NodePath("BlackControl")
+audio_bg = NodePath("AudioBg")
+hboxcontainer = NodePath("HBoxContainer")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="Story" parent="." instance=ExtResource("5_oms65")]
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer"]
+[node name="BackgroundControl" parent="." instance=ExtResource("5_qura7")]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
@@ -28,3 +39,11 @@ size_flags_horizontal = 0
 size_flags_vertical = 0
 theme_override_constants/separation = 55
 alignment = 1
+
+[node name="BlackControl" parent="." instance=ExtResource("6_wcstt")]
+
+[node name="ChoiceControl" parent="." instance=ExtResource("8_531wc")]
+
+[node name="AudioBg" parent="." instance=ExtResource("9_feq6t")]
+
+[connection signal="animation_played" from="BlackControl" to="." method="_on_black_control_animation_played"]

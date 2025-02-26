@@ -1,5 +1,7 @@
 extends Node
 
+class_name MyEnums
+
 enum Type {
 	SET_SCENE,
 	PLAY_SONG,
@@ -17,13 +19,8 @@ enum Type {
 }
 
 enum Vision {
-	OPEN_EYES,
-	CLOSE_EYES,
 	FADE_IN,
 	FADE_OUT,
-	DIZZINESS,
-	WOUNDED,
-	BLACKOUT
 }
 
 enum Action {
@@ -46,4 +43,16 @@ enum Characters
 {
 	HANA,
 	MIKI
+}
+
+enum Background
+{
+	NOON,
+	NIGHT
+}
+
+enum Audio
+{
+	MENU,
+	GAMEPLAY
 }
