@@ -22,13 +22,20 @@ var autoplay_goal: int = 0
 @export var audio_bg: AudioStreamPlayer
 @export var choice_control: Control
 @export var end_title: Control
+@export var save_system: Node
+@export var menu: Control
 
-@export var bg_textures: Dictionary = {
-	Enums.Background.NOON : preload("res://styles/noon_style.tres"),
-	Enums.Background.NIGHT : preload("res://styles/night_style.tres"),
+@onready var bg_textures: Dictionary = {
+	Enums.Background.OUTSIDE_HOUSE : preload("res://styles/OUTSIDE_HOUSE.tres"),
+	Enums.Background.LONG_HALLS : preload("res://styles/LONG_HALL.tres"),
+	Enums.Background.OAK_DOOR : preload("res://styles/OAK_DOOR.tres"),
+	Enums.Background.DOOR_VIEW : preload("res://styles/DOOR_VIEW.tres"),
+	Enums.Background.GLOOMY_MORNING : preload("res://styles/GLOOMY_MORNING.tres"),
+	Enums.Background.DESK_VIEW : preload("res://styles/DESK_VIEW.tres"),
+	Enums.Background.FIREPLACE : preload("res://styles/FIREPLACE.tres"),
 }
 
-@export var audio_tracks: Dictionary = {
+@onready var audio_tracks: Dictionary = {
 	Enums.Audio.MENU : preload("res://audio/medieval.ogg"),
 	Enums.Audio.GAMEPLAY : preload("res://audio/gameplay.mp3"),
 }
@@ -37,6 +44,8 @@ var current_text: String
 var current_speaker
 var talking_char: Control = null
 var is_talker: bool = false
+var is_space_on = false
+
 
 # Character instances
 var hana: Control
@@ -45,10 +54,13 @@ var dialogue: Control = null
 
 @export var hboxcontainer: HBoxContainer
 var some_text: String = "Detective Graves stood before the gathered household members, his eyes scanning the room like a hawk searching for the slightest crack in their composure. The fireplace crackled softly, casting flickering shadows across the mahogany walls. The air was heavy, filled with unspoken accusations. We’re going to do this the simple way. I ask questions. You answer honestly. If I find out anyone is lying to me—well, let’s just say I’m good at uncovering secrets. Detective Graves stood before the gathered household members, his eyes scanning the room like a hawk searching for the slightest crack in their composure. The fireplace crackled softly, casting flickering shadows across the mahogany walls. The air was heavy, filled with unspoken accusations. We’re going to do this the simple way. I ask questions. You answer honestly. If I find out anyone is lying to me—well, let’s just say I’m good at uncovering secrets."
+var last_nodes:Array = [0]
 
 
 func _ready() -> void:
 	connect("parse_next_node", next)
+	menu.connect("game_started", _on_menu_game_started)
+	menu.connect("load_started", _on_menu_save_loaded)
 	choice_control.connect("next_route", route_choice)
 	#connect("skip_yapping", skip_yap)
 	
@@ -61,57 +73,10 @@ func _ready() -> void:
 		Enums.Characters.HANA: hana,
 		Enums.Characters.MIKI: miki
 	}
+	audio_bg.play_track(audio_tracks[Enums.Audio.MENU])
 	
-	print(story.STORY[1])
-
 func _input(event) -> void:
-	if(event.is_action_pressed("add_hana")):
-		add_char(Enums.Characters.HANA, Enums.Pose.UPSET)
-	if(event.is_action_pressed("add_miki")):
-		add_char(Enums.Characters.MIKI, Enums.Pose.UPSET)
-	if(event.is_action_pressed("remove_hana")):
-		remove_char(Enums.Characters.HANA)
-	if(event.is_action_pressed("remove_miki")):
-		remove_char(Enums.Characters.MIKI)
-	if(event.is_action_pressed("zoom_in_hana")):
-		character[Enums.Characters.HANA].zoom_in()
-	if(event.is_action_pressed("zoom_out_hana")):
-		character[Enums.Characters.HANA].zoom_out()
-	if(event.is_action_pressed("zoom_in_miki")):
-		character[Enums.Characters.MIKI].zoom_in()
-	if(event.is_action_pressed("zoom_out_miki")):
-		character[Enums.Characters.MIKI].zoom_out()
-	if(event.is_action_pressed("talk_miki")):
-		character[Enums.Characters.MIKI].talk()
-	if(event.is_action_pressed("silence_miki")):
-		character[Enums.Characters.MIKI].silence()
-	if(event.is_action_pressed("talk_hana")):
-		character[Enums.Characters.HANA].talk()
-	if(event.is_action_pressed("silence_hana")):
-		character[Enums.Characters.HANA].silence()
-	if(event.is_action_pressed("open_d")):
-		add_dialogue()
-	if(event.is_action_pressed("close_d")):
-		dialogue.close()
-	if(event.is_action_pressed("char_by_char")):
-		char_by_char( some_text, "Masha")
-	if(event.is_action_pressed("full_text")):
-		set_full_text( some_text, "Masha")
-	if(event.is_action_pressed("change_bg1")):
-		bg.change(bg_textures[1])
-	if(event.is_action_pressed("change_bg0")):
-		bg.change(bg_textures[0])
-	if(event.is_action_pressed("black_on")):
-		blackout.appear()
-	if(event.is_action_pressed("black_off")):
-		blackout.disappear()
-	if(event.is_action_pressed("audio1")):
-		audio_bg.play_track(audio_tracks[Enums.Audio.MENU])
-	if(event.is_action_pressed("audio2")):
-		audio_bg.play_track(audio_tracks[Enums.Audio.GAMEPLAY])
-	if(event.is_action_pressed("stop")):
-		audio_bg.stop_track()
-	if(event.is_action_pressed("next")):
+	if(event.is_action_pressed("next") && is_space_on):
 		if(Global.is_yapping):
 			skip_yap(current_text, current_speaker)
 		else:
@@ -171,6 +136,9 @@ func add_dialogue(name = "Unknown"):
 		dialogue.appear()
 		dialogue.connect("dialogue_closed", _on_dialogue_closed)
 		dialogue.connect("yapping_completed", _on_yapping_completed)
+		dialogue.connect("save_pressed", _on_save_pressed)
+		dialogue.connect("save_window_opened", _on_so)
+		dialogue.connect("save_window_closed", _on_sc)
 	else:
 		push_error("An instance of the dialogue already exists")
 
@@ -205,6 +173,7 @@ func choose_node():
 	if(current_node >= 0):
 		if(autoplay_count - 1 > -1 && autoplay_goal - 1>  -1 && autoplay_count - 1 == autoplay_goal - 1):
 			is_autoplay_on = false
+			is_space_on = true
 			autoplay_count = 0
 			autoplay_goal = 0
 			print("AUTOPLAY IS FALSE")
@@ -256,6 +225,15 @@ func choose_node():
 							autoplay_count += 1
 							await autoplay_delay(5)
 							parse_next_node.emit()
+			
+			Enums.Type.CLUE:
+				print("CLUE")
+				Global.current_clues.append(story.STORY[current_node]["clue"])
+				current_node += 1
+				if(is_autoplay_on):
+					autoplay_count += 1
+					await autoplay_delay(1)
+				parse_next_node.emit()
 			
 			Enums.Type.DIALOGUE:
 				print("DIALOGUE")
@@ -323,10 +301,13 @@ func choose_node():
 				print("CHOICE")
 				var current_choices: Array = story.STORY[current_node]["choices"]
 				choice_control.add_choice(current_choices)
+				is_space_on = false
+				last_nodes.append(current_node + 1)
 	
 			Enums.Type.AUTOPLAY:
 				print("AUTOPLAY")
 				is_autoplay_on = true
+				is_space_on = false
 				autoplay_count = 0
 				autoplay_goal = story.STORY[current_node]["until"] - current_node
 				
@@ -336,11 +317,15 @@ func choose_node():
 				print("TIMER")
 			Enums.Type.END:
 				print("END")
-				current_node = 0
-				
+				current_node = -1
+				last_nodes.append(current_node + 1)
 				blackout.visible = true
 				end_title.visible_off()
 				audio_bg.play_track(audio_tracks[Enums.Audio.MENU])
+				is_space_on = false
+				for i in character.size():
+					remove_char(character[i])
+				menu.show()
 				
 				
 			Enums.Type.WIN:
@@ -393,6 +378,7 @@ func _on_yapping_completed() -> void:
 func route_choice(node: int) -> void:
 	print("In main")
 	current_node = node
+	is_space_on = true
 	if(choice_control != null):
 		choice_control.remove_choices()
 	else:
@@ -402,3 +388,55 @@ func route_choice(node: int) -> void:
 func autoplay_delay(seconds: float) -> void:
 	if is_autoplay_on:
 		await get_tree().create_timer(seconds).timeout
+
+
+func _on_menu_game_started(wanted_node: int) -> void:
+	if(wanted_node == 0):
+		print("New game instantiated")
+		menu.clear_save_file()
+		current_node = 0
+		Global.current_clues = []
+		is_space_on = true
+		menu.hide()
+		next()
+	
+
+func _on_menu_save_loaded(data: Dictionary, our_save_title: String) -> void:
+	print("Game loaded")
+	var goal = data[our_save_title]["node"] - 1
+	var last_node = data[our_save_title]["last_node"]
+	Global.current_clues = data[our_save_title]["clues"]
+	if(goal < 0):
+		goal = 0
+	
+	current_node = last_node
+	
+	
+	is_autoplay_on = true
+	is_space_on = false
+	autoplay_count = 0
+	autoplay_goal = goal - current_node
+	
+	print(current_node)
+	
+	menu.hide()
+	next()
+
+func _on_save_pressed(save_title: String) -> void:
+	print("SAVE_PRESSED")
+	menu.save_state(save_title, current_node, Global.current_clues, last_nodes[last_nodes.size()-1])
+	menu.print_json_contents()
+
+
+func _on_menu_access_load() -> void:
+	print("LOAD_PRESS")
+	
+	
+func _on_menu_close_load() -> void:
+	print("LOAD_CLOSED")
+
+func _on_so():
+	is_space_on = false
+
+func _on_sc():
+	is_space_on = true

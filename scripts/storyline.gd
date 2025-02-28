@@ -5,7 +5,7 @@ class_name Story
 var STORY = {
 	0 : {
 		"type" : Enums.Type.SET_SCENE,
-		"background" : Enums.Background.NOON
+		"background" : Enums.Background.DOOR_VIEW
 	},
 	
 	1 : {
@@ -178,7 +178,7 @@ var STORY = {
 
 	30 : {
 		"type" : Enums.Type.SET_SCENE,
-		"background" : Enums.Background.NIGHT
+		"background" : Enums.Background.DESK_VIEW
 	},
 
 	31 : {

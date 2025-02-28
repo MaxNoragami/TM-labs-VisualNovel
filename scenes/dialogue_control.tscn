@@ -1,10 +1,15 @@
-[gd_scene load_steps=23 format=3 uid="uid://d2b20sylrdguh"]
+[gd_scene load_steps=37 format=3 uid="uid://d2b20sylrdguh"]
 
 [ext_resource type="Script" path="res://scripts/dialogue.gd" id="1_3o1jf"]
 [ext_resource type="Texture2D" uid="uid://6ffs277bjlu2" path="res://sprites/dialogue.png" id="1_put8g"]
 [ext_resource type="Theme" uid="uid://dgcdobeb4gsu0" path="res://themes/button_dialogue.tres" id="2_jbgh8"]
 [ext_resource type="FontVariation" uid="uid://bwqc7q5hpagoe" path="res://styles/font_dialogue_italic.tres" id="2_ys5jo"]
 [ext_resource type="FontVariation" uid="uid://cmtea6obfatdl" path="res://styles/font_dialogue.tres" id="3_bwtya"]
+[ext_resource type="PackedScene" uid="uid://rkw2e3hh60cq" path="res://scenes/clue.tscn" id="4_6c3oq"]
+[ext_resource type="FontFile" uid="uid://d3a6fcul1qa2v" path="res://fonts/Jacquard24-Regular.ttf" id="6_4epan"]
+[ext_resource type="StyleBox" uid="uid://bad3hpjmb1gls" path="res://styles/choice_button_default.tres" id="7_hx4fd"]
+[ext_resource type="StyleBox" uid="uid://xtspwvto2smv" path="res://styles/choice_button_hover.tres" id="8_qxqs7"]
+[ext_resource type="StyleBox" uid="uid://bxkoxrq6om4y7" path="res://styles/choice_button_pressed.tres" id="9_vch1h"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_liv40"]
 
@@ -51,6 +56,61 @@ Panel/styles/panel = SubResource("StyleBoxEmpty_6qn4c")
 
 [sub_resource type="Theme" id="Theme_yqg70"]
 Panel/styles/panel = SubResource("StyleBoxEmpty_seqi4")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ydjt0"]
+bg_color = Color(0.0843735, 0.320454, 0.402635, 0.901961)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="Theme" id="Theme_rspqu"]
+LineEdit/font_sizes/font_size = 48
+LineEdit/styles/focus = ExtResource("7_hx4fd")
+LineEdit/styles/normal = ExtResource("8_qxqs7")
+LineEdit/styles/read_only = ExtResource("9_vch1h")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mfbxc"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3ony6"]
+
+[sub_resource type="Theme" id="Theme_muthn"]
+Button/font_sizes/font_size = 55
+Button/fonts/font = ExtResource("6_4epan")
+Button/styles/disabled = SubResource("StyleBoxEmpty_mfbxc")
+Button/styles/focus = SubResource("StyleBoxEmpty_3ony6")
+Button/styles/hover = ExtResource("8_qxqs7")
+Button/styles/normal = ExtResource("7_hx4fd")
+Button/styles/pressed = ExtResource("9_vch1h")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1qmh3"]
+bg_color = Color(0.0862745, 0.321569, 0.403922, 0.980392)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4nmcw"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2li0m"]
+
+[sub_resource type="Theme" id="Theme_u6363"]
+Button/constants/h_separation = 0
+Button/font_sizes/font_size = 100
+Button/fonts/font = ExtResource("6_4epan")
+Button/styles/disabled = SubResource("StyleBoxEmpty_4nmcw")
+Button/styles/focus = SubResource("StyleBoxEmpty_2li0m")
+Button/styles/hover = ExtResource("8_qxqs7")
+Button/styles/normal = ExtResource("7_hx4fd")
+Button/styles/pressed = ExtResource("9_vch1h")
 
 [sub_resource type="Animation" id="Animation_65ygp"]
 resource_name = "APPEAR"
@@ -134,7 +194,7 @@ _data = {
 "RESET": SubResource("Animation_eagl1")
 }
 
-[node name="DialogueControl" type="Control" node_paths=PackedStringArray("speaker", "dialogue", "scroll_container", "animation")]
+[node name="DialogueControl" type="Control" node_paths=PackedStringArray("speaker", "dialogue", "scroll_container", "animation", "save_button", "save_window", "save_title_btn", "cancel_btn", "input_line", "clues_win", "clues_button", "vboxclues")]
 modulate = Color(1, 1, 1, 0)
 z_index = 3
 layout_mode = 3
@@ -150,6 +210,15 @@ scroll_container = NodePath("MarginContainer/VBoxContainer/VBoxContainer/Dialogu
 animation = NodePath("AnimationPlayer")
 font_italic = ExtResource("2_ys5jo")
 font_normal = ExtResource("3_bwtya")
+save_button = NodePath("MarginContainer/VBoxContainer/VBoxContainer/Buttons/MarginContainer/HBoxContainer/Save")
+save_window = NodePath("SaveTitleMargin")
+save_title_btn = NodePath("SaveTitleMargin/SaveTitleWin/VBoxContainer/HBoxContainer/MarginContainer/SaveTitle")
+cancel_btn = NodePath("SaveTitleMargin/SaveTitleWin/VBoxContainer/HBoxContainer/MarginContainer2/CancelSave")
+input_line = NodePath("SaveTitleMargin/SaveTitleWin/VBoxContainer/MarginContainer/Input")
+clues_win = NodePath("MarginClues")
+clue_scene = ExtResource("4_6c3oq")
+clues_button = NodePath("MarginContainer/VBoxContainer/VBoxContainer/Buttons/MarginContainer/HBoxContainer/Clues")
+vboxclues = NodePath("MarginClues/CluesPopOut/VBoxContainer/Bottom/ScrollContainer/VBoxContainer")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -272,13 +341,14 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_ou6no")
 
-[node name="Load" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer/Buttons/MarginContainer/HBoxContainer"]
+[node name="Clues" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer/Buttons/MarginContainer/HBoxContainer"]
 clip_contents = true
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 theme = ExtResource("2_jbgh8")
 theme_override_font_sizes/font_size = 22
-text = "Load"
+text = "Clues
+"
 autowrap_mode = 3
 
 [node name="Save" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer/Buttons/MarginContainer/HBoxContainer"]
@@ -315,7 +385,172 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_yqg70")
 
+[node name="SaveTitleMargin" type="MarginContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 400
+theme_override_constants/margin_top = 250
+theme_override_constants/margin_right = 400
+theme_override_constants/margin_bottom = 250
+
+[node name="SaveTitleWin" type="PanelContainer" parent="SaveTitleMargin"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ydjt0")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SaveTitleMargin/SaveTitleWin"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="SaveTitleMargin/SaveTitleWin/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.15
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("6_4epan")
+theme_override_font_sizes/font_size = 77
+text = "Enter a Save Title"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Info" type="Label" parent="SaveTitleMargin/SaveTitleWin/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("6_4epan")
+theme_override_font_sizes/font_size = 30
+text = "( make sure you do not repeat the same title twice )"
+horizontal_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="SaveTitleMargin/SaveTitleWin/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.33
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 20
+
+[node name="Input" type="LineEdit" parent="SaveTitleMargin/SaveTitleWin/VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = SubResource("Theme_rspqu")
+placeholder_text = "Save title goes here ..."
+alignment = 1
+caret_blink = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SaveTitleMargin/SaveTitleWin/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="SaveTitleMargin/SaveTitleWin/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 20
+
+[node name="SaveTitle" type="Button" parent="SaveTitleMargin/SaveTitleWin/VBoxContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = SubResource("Theme_muthn")
+text = "Save"
+
+[node name="MarginContainer2" type="MarginContainer" parent="SaveTitleMargin/SaveTitleWin/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 20
+
+[node name="CancelSave" type="Button" parent="SaveTitleMargin/SaveTitleWin/VBoxContainer/HBoxContainer/MarginContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = SubResource("Theme_muthn")
+text = "Cancel"
+
+[node name="MarginClues" type="MarginContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 400
+theme_override_constants/margin_top = 250
+theme_override_constants/margin_right = 400
+theme_override_constants/margin_bottom = 250
+
+[node name="CluesPopOut" type="PanelContainer" parent="MarginClues"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_1qmh3")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginClues/CluesPopOut"]
+layout_mode = 2
+
+[node name="Top" type="MarginContainer" parent="MarginClues/CluesPopOut/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginClues/CluesPopOut/VBoxContainer/Top"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginClues/CluesPopOut/VBoxContainer/Top/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+size_flags_stretch_ratio = 8.84
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = ExtResource("6_4epan")
+theme_override_font_sizes/font_size = 100
+text = " Clues"
+vertical_alignment = 1
+clip_text = true
+
+[node name="CloseClues" type="Button" parent="MarginClues/CluesPopOut/VBoxContainer/Top/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = SubResource("Theme_u6363")
+text = "x"
+clip_text = true
+
+[node name="Bottom" type="MarginContainer" parent="MarginClues/CluesPopOut/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 6.7
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginClues/CluesPopOut/VBoxContainer/Bottom"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginClues/CluesPopOut/VBoxContainer/Bottom/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_ern3o")
 }
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer/Buttons/MarginContainer/HBoxContainer/Clues" to="." method="_on_clues_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer/Buttons/MarginContainer/HBoxContainer/Save" to="." method="_on_save_pressed"]
+[connection signal="pressed" from="SaveTitleMargin/SaveTitleWin/VBoxContainer/HBoxContainer/MarginContainer/SaveTitle" to="." method="_on_save_title_pressed"]
+[connection signal="pressed" from="SaveTitleMargin/SaveTitleWin/VBoxContainer/HBoxContainer/MarginContainer2/CancelSave" to="." method="_on_cancel_save_pressed"]
+[connection signal="pressed" from="MarginClues/CluesPopOut/VBoxContainer/Top/HBoxContainer/CloseClues" to="." method="_on_close_clues_pressed"]

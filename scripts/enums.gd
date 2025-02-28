@@ -14,6 +14,7 @@ enum Type {
 	TIMER,
 	END,
 	WIN,
+	CLUE,
 	CLOSE_DIALOGUE
 }
 
@@ -47,8 +48,13 @@ enum Characters
 
 enum Background
 {
-	NOON,
-	NIGHT
+	OUTSIDE_HOUSE,
+	LONG_HALLS,
+	OAK_DOOR,
+	DOOR_VIEW,
+	GLOOMY_MORNING,
+	DESK_VIEW,
+	FIREPLACE
 }
 
 enum Audio

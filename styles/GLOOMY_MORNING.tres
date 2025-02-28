@@ -1,0 +1,6 @@
+[gd_resource type="StyleBoxTexture" load_steps=2 format=3 uid="uid://cvbirjs3c1uao"]
+
+[ext_resource type="Texture2D" uid="uid://e8dmsnfndv8q" path="res://sprites/GLOOMY_MORNING.png" id="1_5lxcg"]
+
+[resource]
+texture = ExtResource("1_5lxcg")

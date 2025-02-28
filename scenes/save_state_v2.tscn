@@ -1,0 +1,29 @@
+[gd_scene load_steps=9 format=3 uid="uid://mmq8umomumnq"]
+
+[ext_resource type="FontFile" uid="uid://d3a6fcul1qa2v" path="res://fonts/Jacquard24-Regular.ttf" id="1_k2dpm"]
+[ext_resource type="StyleBox" uid="uid://xtspwvto2smv" path="res://styles/choice_button_hover.tres" id="2_h4e04"]
+[ext_resource type="StyleBox" uid="uid://bad3hpjmb1gls" path="res://styles/choice_button_default.tres" id="3_fuqd6"]
+[ext_resource type="StyleBox" uid="uid://bxkoxrq6om4y7" path="res://styles/choice_button_pressed.tres" id="4_vkljv"]
+[ext_resource type="Script" path="res://scripts/state_button.gd" id="5_c2q0i"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_k2opx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_o4b0v"]
+
+[sub_resource type="Theme" id="Theme_nrdrv"]
+Button/font_sizes/font_size = 140
+Button/fonts/font = ExtResource("1_k2dpm")
+Button/styles/disabled = SubResource("StyleBoxEmpty_k2opx")
+Button/styles/focus = SubResource("StyleBoxEmpty_o4b0v")
+Button/styles/hover = ExtResource("2_h4e04")
+Button/styles/normal = ExtResource("3_fuqd6")
+Button/styles/pressed = ExtResource("4_vkljv")
+
+[node name="SaveState" type="Button"]
+custom_minimum_size = Vector2(0, 180)
+size_flags_horizontal = 3
+theme = SubResource("Theme_nrdrv")
+text = "24"
+script = ExtResource("5_c2q0i")
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

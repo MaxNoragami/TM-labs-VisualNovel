@@ -6,12 +6,26 @@ extends Control
 @export var animation: AnimationPlayer
 @export var font_italic: Font
 @export var font_normal: Font
+@export var save_button: Button
+@export var save_window: MarginContainer
+@export var save_title_btn: Button
+@export var cancel_btn: Button
+@export var input_line: LineEdit
+
+@export var clues_win: MarginContainer
+@export var clue_scene: PackedScene
+@export var clues_button: Button
+@export var vboxclues: VBoxContainer
 
 signal dialogue_closed
 signal yapping_completed
+signal save_pressed
+signal save_window_opened
+signal save_window_closed
 
 var is_scrolling: bool = false
 var stop_typewriter: bool = false
+var save_title: String = ""
 
 func typewrite_text(text, name) -> void:
 	dialogue.visible_characters = 0
@@ -79,3 +93,54 @@ func close() -> void:
 func emit_close() -> void:
 	dialogue_closed.emit()
 	print("Dialogue closed, bro")
+
+
+func _on_save_pressed() -> void:
+	save_button.release_focus() 
+	save_window.visible = true
+	save_window_opened.emit()
+
+
+func _on_cancel_save_pressed() -> void:
+	save_window.visible = false
+	cancel_btn.release_focus() 
+	save_window_closed.emit()
+
+
+func _on_save_title_pressed() -> void:
+	save_title = input_line.text
+	save_title_btn.release_focus()
+	save_window.visible = false
+	save_window_closed.emit()
+	save_pressed.emit(save_title)
+
+
+func _on_clues_pressed() -> void:
+	clues_button.release_focus()
+	clues_win.visible = true
+	
+	# Clear any existing clues (if necessary)
+	for child in vboxclues.get_children():
+		child.queue_free()
+	
+	# Create new instances based on Global.current_clues
+	for clue_text in Global.current_clues:
+		var clue_instance = clue_scene.instantiate()
+		# Assuming the clue instance is a Label or has a method to set its text.
+		if clue_instance is Label:
+			clue_instance.text = clue_text
+		elif clue_instance.has_method("set_text"):
+			clue_instance.set_text(clue_text)
+		else:
+			# Alternatively, if the text label is a child node, for example:
+			var label = clue_instance.get_node("Label")
+			if label:
+				label.text = clue_text
+		vboxclues.add_child(clue_instance)
+
+func _on_close_clues_pressed() -> void:
+	clues_win.visible = false
+	
+	# Remove all children from the vboxclues container.
+	for child in vboxclues.get_children():
+		child.queue_free()

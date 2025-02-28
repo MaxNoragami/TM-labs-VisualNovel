@@ -1,12 +1,12 @@
-[gd_scene load_steps=17 format=3 uid="uid://dx1g1mdtmap2a"]
+[gd_scene load_steps=17 format=3 uid="uid://dru7nddnrr85v"]
 
-[ext_resource type="Script" path="res://scripts/menu.gd" id="1_885li"]
-[ext_resource type="FontFile" uid="uid://d3a6fcul1qa2v" path="res://fonts/Jacquard24-Regular.ttf" id="2_3p4ft"]
-[ext_resource type="PackedScene" uid="uid://dk88gjay7difq" path="res://scenes/save_state.tscn" id="2_m5tgo"]
-[ext_resource type="StyleBox" uid="uid://xtspwvto2smv" path="res://styles/choice_button_hover.tres" id="3_xtpxj"]
-[ext_resource type="StyleBox" uid="uid://bad3hpjmb1gls" path="res://styles/choice_button_default.tres" id="4_lkw0x"]
-[ext_resource type="StyleBox" uid="uid://bxkoxrq6om4y7" path="res://styles/choice_button_pressed.tres" id="5_v7yvu"]
-[ext_resource type="Texture2D" uid="uid://cqytt5l1i654u" path="res://sprites/kiki.png" id="6_18y2u"]
+[ext_resource type="Script" path="res://scripts/menu.gd" id="1_ryj7k"]
+[ext_resource type="FontFile" uid="uid://d3a6fcul1qa2v" path="res://fonts/Jacquard24-Regular.ttf" id="3_bquld"]
+[ext_resource type="StyleBox" uid="uid://xtspwvto2smv" path="res://styles/choice_button_hover.tres" id="4_b7ftm"]
+[ext_resource type="StyleBox" uid="uid://bad3hpjmb1gls" path="res://styles/choice_button_default.tres" id="5_ul1ds"]
+[ext_resource type="StyleBox" uid="uid://bxkoxrq6om4y7" path="res://styles/choice_button_pressed.tres" id="6_cnn26"]
+[ext_resource type="PackedScene" uid="uid://mmq8umomumnq" path="res://scenes/save_state_v2.tscn" id="7_0e3w5"]
+[ext_resource type="Texture2D" uid="uid://cqytt5l1i654u" path="res://sprites/kiki.png" id="7_ta25o"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tu1u8"]
 bg_color = Color(0, 0, 0, 1)
@@ -17,11 +17,11 @@ bg_color = Color(0, 0, 0, 1)
 
 [sub_resource type="Theme" id="Theme_qq0m5"]
 Button/font_sizes/font_size = 77
-Button/fonts/font = ExtResource("2_3p4ft")
+Button/fonts/font = ExtResource("3_bquld")
 Button/styles/focus = SubResource("StyleBoxEmpty_oijdg")
-Button/styles/hover = ExtResource("3_xtpxj")
-Button/styles/normal = ExtResource("4_lkw0x")
-Button/styles/pressed = ExtResource("5_v7yvu")
+Button/styles/hover = ExtResource("4_b7ftm")
+Button/styles/normal = ExtResource("5_ul1ds")
+Button/styles/pressed = ExtResource("6_cnn26")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1uvxv"]
 bg_color = Color(0.0862745, 0.321569, 0.403922, 0.980392)
@@ -34,22 +34,22 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4nmcw"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2ob8y"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2li0m"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1p24n"]
 
 [sub_resource type="Theme" id="Theme_b8obr"]
 Button/constants/h_separation = 0
 Button/font_sizes/font_size = 100
-Button/fonts/font = ExtResource("2_3p4ft")
-Button/styles/disabled = SubResource("StyleBoxEmpty_4nmcw")
-Button/styles/focus = SubResource("StyleBoxEmpty_2li0m")
-Button/styles/hover = ExtResource("3_xtpxj")
-Button/styles/normal = ExtResource("4_lkw0x")
-Button/styles/pressed = ExtResource("5_v7yvu")
+Button/fonts/font = ExtResource("3_bquld")
+Button/styles/disabled = SubResource("StyleBoxEmpty_2ob8y")
+Button/styles/focus = SubResource("StyleBoxEmpty_1p24n")
+Button/styles/hover = ExtResource("4_b7ftm")
+Button/styles/normal = ExtResource("5_ul1ds")
+Button/styles/pressed = ExtResource("6_cnn26")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vsrnx"]
-texture = ExtResource("6_18y2u")
+texture = ExtResource("7_ta25o")
 
 [node name="Menu" type="Control" node_paths=PackedStringArray("newgame_btn", "loadgame_btn", "credits_btn", "loadgame_win", "credits_win", "pop_outs", "save_state_grid")]
 z_index = 12
@@ -59,15 +59,15 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_885li")
+script = ExtResource("1_ryj7k")
 newgame_btn = NodePath("PanelContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/NewGame")
 loadgame_btn = NodePath("PanelContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/LoadGame")
 credits_btn = NodePath("PanelContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Credits")
 loadgame_win = NodePath("PanelContainer/PopOuts/LoadGamePopOut")
 credits_win = NodePath("PanelContainer/PopOuts/CreditsPopOut")
 pop_outs = NodePath("PanelContainer/PopOuts")
-save_state_scene = ExtResource("2_m5tgo")
-save_state_grid = NodePath("PanelContainer/PopOuts/LoadGamePopOut/VBoxContainer/Bottom/ScrollContainer/GridContainer")
+save_state_scene = ExtResource("7_0e3w5")
+save_state_grid = NodePath("PanelContainer/PopOuts/LoadGamePopOut/VBoxContainer/Bottom/ScrollContainer/VBoxContainer")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 2
@@ -98,7 +98,7 @@ size_flags_vertical = 1
 theme_override_colors/font_outline_color = Color(0.0862745, 0.321569, 0.403922, 1)
 theme_override_constants/line_spacing = -50
 theme_override_constants/outline_size = 40
-theme_override_fonts/font = ExtResource("2_3p4ft")
+theme_override_fonts/font = ExtResource("3_bquld")
 theme_override_font_sizes/font_size = 235
 text = "Murder at Blackwood Manor"
 horizontal_alignment = 1
@@ -146,7 +146,6 @@ theme_override_constants/margin_right = 400
 theme_override_constants/margin_bottom = 100
 
 [node name="LoadGamePopOut" type="PanelContainer" parent="PanelContainer/PopOuts"]
-visible = false
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_1uvxv")
 
@@ -171,7 +170,7 @@ size_flags_vertical = 1
 size_flags_stretch_ratio = 8.84
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 20
-theme_override_fonts/font = ExtResource("2_3p4ft")
+theme_override_fonts/font = ExtResource("3_bquld")
 theme_override_font_sizes/font_size = 100
 text = " Load Game"
 vertical_alignment = 1
@@ -197,13 +196,10 @@ theme_override_constants/margin_bottom = 10
 layout_mode = 2
 horizontal_scroll_mode = 0
 
-[node name="GridContainer" type="GridContainer" parent="PanelContainer/PopOuts/LoadGamePopOut/VBoxContainer/Bottom/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/PopOuts/LoadGamePopOut/VBoxContainer/Bottom/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/h_separation = 20
-theme_override_constants/v_separation = 20
-columns = 5
 
 [node name="CreditsPopOut" type="PanelContainer" parent="PanelContainer/PopOuts"]
 visible = false
@@ -231,7 +227,7 @@ size_flags_vertical = 1
 size_flags_stretch_ratio = 8.84
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 20
-theme_override_fonts/font = ExtResource("2_3p4ft")
+theme_override_fonts/font = ExtResource("3_bquld")
 theme_override_font_sizes/font_size = 100
 text = " Credits"
 vertical_alignment = 1
@@ -265,7 +261,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 theme_override_constants/outline_size = 10
-theme_override_fonts/font = ExtResource("2_3p4ft")
+theme_override_fonts/font = ExtResource("3_bquld")
 theme_override_font_sizes/font_size = 77
 text = "Writer :"
 horizontal_alignment = 2
@@ -276,7 +272,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 theme_override_constants/outline_size = 10
-theme_override_fonts/font = ExtResource("2_3p4ft")
+theme_override_fonts/font = ExtResource("3_bquld")
 theme_override_font_sizes/font_size = 77
 text = " Victoria Mutruc"
 vertical_alignment = 1
@@ -290,7 +286,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 theme_override_constants/outline_size = 10
-theme_override_fonts/font = ExtResource("2_3p4ft")
+theme_override_fonts/font = ExtResource("3_bquld")
 theme_override_font_sizes/font_size = 77
 text = "Writer :"
 horizontal_alignment = 2
@@ -301,7 +297,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 theme_override_constants/outline_size = 10
-theme_override_fonts/font = ExtResource("2_3p4ft")
+theme_override_fonts/font = ExtResource("3_bquld")
 theme_override_font_sizes/font_size = 77
 text = " Daria Rațeeva"
 vertical_alignment = 1
@@ -315,7 +311,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 theme_override_constants/outline_size = 10
-theme_override_fonts/font = ExtResource("2_3p4ft")
+theme_override_fonts/font = ExtResource("3_bquld")
 theme_override_font_sizes/font_size = 77
 text = "Developer :"
 horizontal_alignment = 2
@@ -326,7 +322,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 theme_override_constants/outline_size = 10
-theme_override_fonts/font = ExtResource("2_3p4ft")
+theme_override_fonts/font = ExtResource("3_bquld")
 theme_override_font_sizes/font_size = 77
 text = " Daniel Cojocaru"
 vertical_alignment = 1
@@ -340,7 +336,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 theme_override_constants/outline_size = 10
-theme_override_fonts/font = ExtResource("2_3p4ft")
+theme_override_fonts/font = ExtResource("3_bquld")
 theme_override_font_sizes/font_size = 77
 text = "Developer :"
 horizontal_alignment = 2
@@ -351,7 +347,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 theme_override_constants/outline_size = 10
-theme_override_fonts/font = ExtResource("2_3p4ft")
+theme_override_fonts/font = ExtResource("3_bquld")
 theme_override_font_sizes/font_size = 77
 text = " Adrian Vremere"
 vertical_alignment = 1
@@ -365,7 +361,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 theme_override_constants/outline_size = 10
-theme_override_fonts/font = ExtResource("2_3p4ft")
+theme_override_fonts/font = ExtResource("3_bquld")
 theme_override_font_sizes/font_size = 77
 text = "Developer :"
 horizontal_alignment = 2
@@ -376,7 +372,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 theme_override_constants/outline_size = 10
-theme_override_fonts/font = ExtResource("2_3p4ft")
+theme_override_fonts/font = ExtResource("3_bquld")
 theme_override_font_sizes/font_size = 77
 text = " Maxim Alexei"
 vertical_alignment = 1

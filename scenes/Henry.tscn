@@ -1,10 +1,10 @@
 [gd_scene load_steps=16 format=3 uid="uid://cpqkj4cw8an1"]
 
 [ext_resource type="Script" path="res://scripts/char.gd" id="1_ta142"]
-[ext_resource type="Texture2D" uid="uid://43haakptmwra" path="res://chars/Miki/idle.png" id="2_0byil"]
-[ext_resource type="Texture2D" uid="uid://d4i3sivocr01c" path="res://chars/Miki/happy.png" id="3_vh8ha"]
-[ext_resource type="Texture2D" uid="uid://d1wsm7qp8purh" path="res://chars/Miki/upset.png" id="4_f3rcu"]
-[ext_resource type="Texture2D" uid="uid://b5x4sx5t7u0sq" path="res://chars/Miki/smile.png" id="5_chd8m"]
+[ext_resource type="Texture2D" uid="uid://cluprlouf7le1" path="res://chars/Henry/idle.png" id="2_n6yn7"]
+[ext_resource type="Texture2D" uid="uid://ch1utv5xhor6g" path="res://chars/Henry/happy.png" id="3_nyjhm"]
+[ext_resource type="Texture2D" uid="uid://dkjco5at1o4xf" path="res://chars/Henry/upset.png" id="4_4aarg"]
+[ext_resource type="Texture2D" uid="uid://bskslwob7ib1i" path="res://chars/Henry/smile.png" id="5_enlkq"]
 [ext_resource type="Shader" path="res://shaders/talk.gdshader" id="6_0unhb"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ldvnd"]
@@ -350,7 +350,7 @@ _data = {
 "ZOOM_OUT": SubResource("Animation_pqd20")
 }
 
-[node name="miki" type="Control"]
+[node name="Henry" type="Control"]
 layout_mode = 3
 anchors_preset = 5
 anchor_left = 0.5
@@ -362,12 +362,12 @@ grow_horizontal = 2
 scale = Vector2(13, 13)
 size_flags_horizontal = 4
 script = ExtResource("1_ta142")
-username = "Miki"
+username = "Henry"
 pose_textures = {
-0: ExtResource("2_0byil"),
-1: ExtResource("3_vh8ha"),
-2: ExtResource("4_f3rcu"),
-3: ExtResource("5_chd8m")
+0: ExtResource("2_n6yn7"),
+1: ExtResource("3_nyjhm"),
+2: ExtResource("4_4aarg"),
+3: ExtResource("5_enlkq")
 }
 
 [node name="Sprite" type="TextureRect" parent="."]
@@ -378,7 +378,7 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 77.0543
 pivot_offset = Vector2(20, 0)
-texture = ExtResource("2_0byil")
+texture = ExtResource("2_n6yn7")
 expand_mode = 5
 
 [node name="Animation" type="AnimationPlayer" parent="."]

@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://rkw2e3hh60cq"]
+
+[ext_resource type="StyleBox" uid="uid://bad3hpjmb1gls" path="res://styles/choice_button_default.tres" id="1_3vlea"]
+
+[sub_resource type="Theme" id="Theme_t0i4p"]
+PanelContainer/styles/panel = ExtResource("1_3vlea")
+
+[node name="PanelContainer" type="PanelContainer"]
+custom_minimum_size = Vector2(0, 77)
+size_flags_vertical = 2
+theme = SubResource("Theme_t0i4p")
+
+[node name="Label" type="Label" parent="."]
+custom_minimum_size = Vector2(0, 77)
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 48
+text = "Clue 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
