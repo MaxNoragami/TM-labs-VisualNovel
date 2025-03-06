@@ -15,7 +15,8 @@ enum Type {
 	END,
 	WIN,
 	CLUE,
-	CLOSE_DIALOGUE
+	CLOSE_DIALOGUE,
+	SFX
 }
 
 enum Vision {
@@ -42,8 +43,13 @@ enum Pose
 
 enum Characters
 {
-	HANA,
-	MIKI
+	ALICE,
+	BEATRICE,
+	COLONEL,
+	HENRY,
+	SINCLAIR,
+	SMITH,
+	WHITMORE
 }
 
 enum Background
@@ -54,7 +60,11 @@ enum Background
 	DOOR_VIEW,
 	GLOOMY_MORNING,
 	DESK_VIEW,
-	FIREPLACE
+	FIREPLACE,
+	BOOKSHELF,
+	DEAD_BODY,
+	PHOTO,
+	DARK_HALL
 }
 
 enum Audio
@@ -62,4 +72,9 @@ enum Audio
 	MENU,
 	GAMEPLAY,
 	NONE
+}
+
+enum SFX
+{
+	SCREAM
 }

@@ -1,27 +1,39 @@
-[gd_scene load_steps=13 format=3 uid="uid://dayb3580f7lke"]
+[gd_scene load_steps=19 format=3 uid="uid://dayb3580f7lke"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_aasc6"]
-[ext_resource type="PackedScene" uid="uid://csjvxov03a2vo" path="res://scenes/hana.tscn" id="1_nh61r"]
+[ext_resource type="PackedScene" uid="uid://b6r78jffm4x5b" path="res://scenes/Alice.tscn" id="2_jeba7"]
 [ext_resource type="PackedScene" uid="uid://cpqkj4cw8an1" path="res://scenes/Henry.tscn" id="3_dxxfu"]
+[ext_resource type="PackedScene" uid="uid://cx8uv67l78mrc" path="res://scenes/Beatrice.tscn" id="3_f85uh"]
 [ext_resource type="PackedScene" uid="uid://d2b20sylrdguh" path="res://scenes/dialogue_control.tscn" id="4_hhg5d"]
+[ext_resource type="PackedScene" uid="uid://r0h7ixpbor43" path="res://scenes/Colonel.tscn" id="4_o21we"]
 [ext_resource type="PackedScene" uid="uid://4g467bsvn8cg" path="res://scenes/story.tscn" id="5_oms65"]
 [ext_resource type="PackedScene" uid="uid://rn0mhxebjs6s" path="res://scenes/background_control.tscn" id="5_qura7"]
+[ext_resource type="PackedScene" uid="uid://bwevx5bv5eoym" path="res://scenes/Sinclair.tscn" id="6_bfhmi"]
 [ext_resource type="PackedScene" uid="uid://dmy4c5ergq3ld" path="res://scenes/save_system.tscn" id="6_l01dr"]
 [ext_resource type="PackedScene" uid="uid://c0dhkex466w60" path="res://scenes/black_control.tscn" id="6_wcstt"]
 [ext_resource type="PackedScene" uid="uid://bh0y3x04jy0jv" path="res://scenes/end.tscn" id="7_8rewr"]
+[ext_resource type="PackedScene" uid="uid://c2po1rrdqqhok" path="res://scenes/Smith.tscn" id="7_h3qw6"]
 [ext_resource type="PackedScene" uid="uid://bou24owh3uuwf" path="res://scenes/choice_control.tscn" id="8_531wc"]
+[ext_resource type="PackedScene" uid="uid://bu3vy1d8stbcv" path="res://scenes/Whitmore.tscn" id="8_j6ane"]
 [ext_resource type="PackedScene" uid="uid://p6bfljut5835" path="res://scenes/audio_bg.tscn" id="9_feq6t"]
 [ext_resource type="PackedScene" uid="uid://dru7nddnrr85v" path="res://scenes/menu_v2.tscn" id="12_84lis"]
+[ext_resource type="PackedScene" uid="uid://bsw7nr2awtguf" path="res://scenes/sfx.tscn" id="13_mnovq"]
 
-[node name="Main" type="Node" node_paths=PackedStringArray("story", "bg", "blackout", "audio_bg", "choice_control", "end_title", "save_system", "menu", "hboxcontainer")]
+[node name="Main" type="Node" node_paths=PackedStringArray("story", "bg", "blackout", "audio_bg", "sfx", "choice_control", "end_title", "save_system", "menu", "hboxcontainer")]
 script = ExtResource("1_aasc6")
 story = NodePath("Story")
-hana_scene = ExtResource("1_nh61r")
-miki_scene = ExtResource("3_dxxfu")
+alice_scene = ExtResource("2_jeba7")
+beatrice_scene = ExtResource("3_f85uh")
+colonel_scene = ExtResource("4_o21we")
+henry_scene = ExtResource("3_dxxfu")
+sinclair_scene = ExtResource("6_bfhmi")
+smith_scene = ExtResource("7_h3qw6")
+whitmore_scene = ExtResource("8_j6ane")
 dialogue_scene = ExtResource("4_hhg5d")
 bg = NodePath("BackgroundControl")
 blackout = NodePath("BlackControl")
 audio_bg = NodePath("AudioBg")
+sfx = NodePath("SFX")
 choice_control = NodePath("ChoiceControl")
 end_title = NodePath("End")
 save_system = NodePath("SaveSystem")
@@ -58,5 +70,7 @@ alignment = 1
 [node name="End" parent="." instance=ExtResource("7_8rewr")]
 
 [node name="Menu" parent="." instance=ExtResource("12_84lis")]
+
+[node name="SFX" parent="." instance=ExtResource("13_mnovq")]
 
 [connection signal="animation_played" from="BlackControl" to="." method="_on_black_control_animation_played"]

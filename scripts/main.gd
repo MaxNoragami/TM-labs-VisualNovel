@@ -14,12 +14,18 @@ var autoplay_goal: int = 0
 
 # Character / scenes / others
 @export var story: Story
-@export var hana_scene: PackedScene
-@export var miki_scene: PackedScene
+@export var alice_scene: PackedScene
+@export var beatrice_scene: PackedScene
+@export var colonel_scene: PackedScene
+@export var henry_scene: PackedScene
+@export var sinclair_scene: PackedScene
+@export var smith_scene: PackedScene
+@export var whitmore_scene: PackedScene
 @export var dialogue_scene: PackedScene
 @export var bg: Control
 @export var blackout: Control
 @export var audio_bg: AudioStreamPlayer
+@export var sfx: Node
 @export var choice_control: Control
 @export var end_title: Control
 @export var save_system: Node
@@ -33,11 +39,19 @@ var autoplay_goal: int = 0
 	Enums.Background.GLOOMY_MORNING : preload("res://styles/GLOOMY_MORNING.tres"),
 	Enums.Background.DESK_VIEW : preload("res://styles/DESK_VIEW.tres"),
 	Enums.Background.FIREPLACE : preload("res://styles/FIREPLACE.tres"),
+	Enums.Background.DEAD_BODY : preload("res://styles/DEAD_BODY.tres"),
+	Enums.Background.BOOKSHELF : preload("res://styles/BOOKSHELF.tres"),
+	Enums.Background.PHOTO : preload("res://styles/PHOTO.tres"),
+	Enums.Background.DARK_HALL : preload("res://styles/DARK_HALL.tres")
 }
 
 @onready var audio_tracks: Dictionary = {
 	Enums.Audio.MENU : preload("res://audio/medieval.ogg"),
 	Enums.Audio.GAMEPLAY : preload("res://audio/gameplay.mp3"),
+}
+
+@onready var sfxs: Dictionary = {
+	Enums.SFX.SCREAM : preload("res://audio/scream.ogg"),
 }
 
 var current_text: String
@@ -48,8 +62,13 @@ var is_space_on = false
 
 
 # Character instances
-var hana: Control
-var miki: Control
+var alice: Control
+var beatrice: Control
+var colonel: Control
+var henry: Control
+var sinclair: Control
+var smith: Control
+var whitmore: Control
 var dialogue: Control = null
 
 @export var hboxcontainer: HBoxContainer
@@ -65,13 +84,23 @@ func _ready() -> void:
 	#connect("skip_yapping", skip_yap)
 	
 	character_scenes = {
-		Enums.Characters.HANA: hana_scene,
-		Enums.Characters.MIKI: miki_scene
+		Enums.Characters.ALICE: alice_scene,
+		Enums.Characters.BEATRICE: beatrice_scene,
+		Enums.Characters.COLONEL: colonel_scene,
+		Enums.Characters.HENRY: henry_scene,
+		Enums.Characters.SINCLAIR: sinclair_scene,
+		Enums.Characters.SMITH: smith_scene,
+		Enums.Characters.WHITMORE: whitmore_scene,
 	}
 	
 	character = {
-		Enums.Characters.HANA: hana,
-		Enums.Characters.MIKI: miki
+		Enums.Characters.ALICE: alice,
+		Enums.Characters.BEATRICE: beatrice,
+		Enums.Characters.COLONEL: colonel,
+		Enums.Characters.HENRY: henry,
+		Enums.Characters.SINCLAIR: sinclair,
+		Enums.Characters.SMITH: smith,
+		Enums.Characters.WHITMORE: whitmore,
 	}
 	audio_bg.play_track(audio_tracks[Enums.Audio.MENU])
 	
@@ -205,6 +234,19 @@ func choose_node():
 					audio_bg.stop_track()
 				else:
 					audio_bg.play_track(audio_tracks[story.STORY[current_node]["song"]])
+				current_node += 1
+				
+				if(is_autoplay_on):
+					autoplay_count += 1
+				
+				parse_next_node.emit()
+			
+			Enums.Type.SFX:
+				print("SFX")
+				if(story.STORY[current_node]["song"] == Enums.Audio.NONE):
+					sfx.stop_track()
+				else:
+					sfx.play_track(sfxs[story.STORY[current_node]["song"]])
 				current_node += 1
 				
 				if(is_autoplay_on):
